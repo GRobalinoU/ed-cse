@@ -10,7 +10,7 @@
 - **Nombre comercial:** Por definir
 - **Paquete npm:** `@ed-cse/core`
 - **Owner:** Gustavo Robalino (gustavo.robalino@proton.me)
-- **Repositorio GitHub:** Por vincular
+- **Repositorio GitHub:** https://github.com/GRobalinoU/ed-cse
 - **Licencia:** MIT
 
 ---
@@ -86,4 +86,5 @@ No agregar dependencias nuevas sin discutirlo primero. El core debe mantener **c
 ---
 
 ## Notas de Sesión
-- **2026-06-06:** Scaffolding completo. Estructura monorepo, docs bilingüe, CI configurado. Próximo paso: implementar el dominio core.
+- **2026-06-06:** Scaffolding completo. Estructura monorepo, docs bilingüe, CI configurado.
+- **2026-06-06:** Repo público en https://github.com/GRobalinoU/ed-cse. Labels (14), milestones (6) e issues de tracking (8) creados vía API. Próximo paso: implementar el dominio core e instalar dependencias con pnpm.

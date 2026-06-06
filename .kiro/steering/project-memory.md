@@ -8,7 +8,7 @@ inclusion: always
 - **Codename interno:** ED-CSE (Event-Driven Canonical State Engine)
 - **Nombre comercial:** Por definir (candidatos en evaluación)
 - **Paquete npm:** `@ed-cse/core` (scoped, bajo organización GitHub)
-- **Repositorio:** Por vincular a GitHub — cuenta: gustavo.robalino@proton.me
+- **Repositorio:** https://github.com/GRobalinoU/ed-cse
 - **Licencia:** MIT (open source)
 - **Estado actual:** Scaffolding inicial — v0.1.0-alpha
 
@@ -84,3 +84,4 @@ apps/
 
 ## Notas de Sesión
 - **2026-06-06:** Scaffolding inicial creado. Nombre comercial pendiente. Estructura monorepo lista.
+- **2026-06-06:** Repo vinculado a GitHub (GRobalinoU/ed-cse). Labels, milestones e issues de tracking creados. CI badge activo. Token en .env local.

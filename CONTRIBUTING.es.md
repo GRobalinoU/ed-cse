@@ -31,7 +31,7 @@ Este proyecto sigue nuestro [Código de Conducta](./CODE_OF_CONDUCT.es.md). Al p
 
 ```bash
 # Clonar el repo
-git clone https://github.com/gustavo-robalino/ed-cse.git
+git clone https://github.com/GRobalinoU/ed-cse.git
 cd ed-cse
 
 # Instalar dependencias
@@ -134,4 +134,4 @@ Priorizamos features que resuelven problemas reales en producción, especialment
 
 ## Preguntas
 
-Abrí una [Discusión](https://github.com/gustavo-robalino/ed-cse/discussions) en lugar de un issue para preguntas generales.
+Abrí una [Discusión](https://github.com/GRobalinoU/ed-cse/discussions) en lugar de un issue para preguntas generales.

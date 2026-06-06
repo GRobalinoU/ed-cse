@@ -31,7 +31,7 @@ This project follows our [Code of Conduct](./CODE_OF_CONDUCT.md). By participati
 
 ```bash
 # Clone the repo
-git clone https://github.com/gustavo-robalino/ed-cse.git
+git clone https://github.com/GRobalinoU/ed-cse.git
 cd ed-cse
 
 # Install dependencies
@@ -134,4 +134,4 @@ We prioritize features that solve real production problems, especially in fintec
 
 ## Questions
 
-Open a [Discussion](https://github.com/gustavo-robalino/ed-cse/discussions) rather than an issue for general questions.
+Open a [Discussion](https://github.com/GRobalinoU/ed-cse/discussions) rather than an issue for general questions.

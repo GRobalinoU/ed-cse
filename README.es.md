@@ -5,6 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
 [![pnpm](https://img.shields.io/badge/maintained%20with-pnpm-cc00ff.svg)](https://pnpm.io/)
+[![CI](https://github.com/GRobalinoU/ed-cse/actions/workflows/ci.yml/badge.svg)](https://github.com/GRobalinoU/ed-cse/actions/workflows/ci.yml)
 
 ---
 
@@ -109,6 +110,10 @@ const result = transition(orderMachine, 'pending', { type: 'CONFIRM' });
 Las contribuciones son bienvenidas. Por favor leé [CONTRIBUTING.md](./CONTRIBUTING.md) antes de abrir un PR.
 
 Este proyecto sigue [Conventional Commits](https://www.conventionalcommits.org/) y [Semantic Versioning](https://semver.org/).
+
+Para preguntas y discusión general, usá [GitHub Discussions](https://github.com/GRobalinoU/ed-cse/discussions).
+
+Para bugs y feature requests, usá [GitHub Issues](https://github.com/GRobalinoU/ed-cse/issues).
 
 ## Licencia
 
