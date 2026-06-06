@@ -19,6 +19,7 @@ coverage/
 
 # AI agent instructions (internal, not for public repo)
 opencode.md
+.kiro/
 
 # Editor
 .vscode/
