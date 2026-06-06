@@ -73,7 +73,7 @@ export async function transition(
     fromState,
     eventType,
     payload,
-    metadata,
+    ...(metadata !== undefined && { metadata }),
   };
 
   // 4. Evaluate policies
