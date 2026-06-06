@@ -44,3 +44,26 @@ export class PolicyViolationError extends Error {
     this.name = 'PolicyViolationError';
   }
 }
+
+/**
+ * ConcurrencyConflictError — thrown when optimistic locking detects a version mismatch.
+ *
+ * This means another process already modified the Aggregate between
+ * the time it was loaded and the time the save was attempted.
+ * The caller should reload the Aggregate and retry the operation.
+ */
+export class ConcurrencyConflictError extends Error {
+  constructor(
+    public readonly aggregateType: string,
+    public readonly aggregateId: string,
+    public readonly expectedVersion: number,
+    public readonly actualVersion: number,
+  ) {
+    super(
+      `Concurrency conflict on Aggregate "${aggregateType}" (id: "${aggregateId}"): ` +
+      `expected version ${expectedVersion}, but found ${actualVersion}. ` +
+      `Reload the aggregate and retry.`,
+    );
+    this.name = 'ConcurrencyConflictError';
+  }
+}

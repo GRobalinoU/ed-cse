@@ -80,11 +80,15 @@ apps/
 | Testing | Vitest | Compatible con ESM, más rápido que Jest |
 | Build | tsup | Simple, produce CJS + ESM, basado en esbuild |
 | Persistencia v0.2 | PostgreSQL | ACID, JSONB, optimistic locking nativo, 90% de empresas ya lo tiene |
-| Concurrencia | Optimistic locking | `WHERE version = N` sobre Aggregate version — simple y probado |
-| Kafka | Diferido a v0.8 | Sin casos de uso concretos; no vende frameworks |
+| Concurrencia | Optimistic locking | `WHERE version = N` sobre **Aggregate version**, no machine version |
+| Kafka | Diferido a v1.0 | Sin casos de uso concretos; no vende frameworks |
 | Sagas | Fuera de scope | Cambiaría la identidad del producto (Temporal territory) |
 | Identidad del producto | Opinionated Runtime | No librería — el paquete completo es el diferenciador |
 | API pública (SDK) | Fluida tipo Prisma | `runtime.machine('order').id(id).transition('CONFIRM')` |
+| Schema de Aggregate | `aggregateType` + `machineVersion` | StateMachine describe comportamiento; AggregateInstance representa estado persistente |
+| machineVersion en eventos | Persistir desde v0.2 | No se usa todavía — se guarda para habilitar replay multi-versión en el futuro |
+| Replay histórico multi-versión | Deuda técnica documentada | v0.x no lo garantiza; la información se preserva para versiones futuras |
+| StateMachineDefinition vs Aggregate | Conceptos separados | FSM es reutilizable; Aggregate es la unidad de consistencia |
 
 ## Roadmap (revisado con arquitecto — 2026-06-06)
 - **v0.1** — ✅ Core FSM, in-memory bus, Avro schema registry, tests
