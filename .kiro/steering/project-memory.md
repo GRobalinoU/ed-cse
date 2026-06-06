@@ -13,16 +13,36 @@ inclusion: always
 - **Estado actual:** Scaffolding inicial — v0.1.0-alpha
 
 ## Qué es
-Motor de estado tipo FSM + Event Sourcing para proyectos medianos, diseñado para escalar.
-Resuelve el problema de estado inconsistente entre backend, frontend, IA y eventos.
+**ED-CSE es un runtime determinístico para agregados dirigidos por eventos.**
+
+No es un workflow engine distribuido. No gestiona sagas. No compite con Temporal, Cadence ni Camunda.
+
+Su propuesta de valor es el paquete completo e inseparable:
+FSM + Event Sourcing + Policies + Schema Evolution + Replay como sistema coherente.
+Eso produce trazabilidad determinística en todos los sistemas que lo adopten.
+
+### Definición de Aggregate (aprobada por arquitecto — 2026-06-06)
+> Un **Aggregate** es la unidad máxima de consistencia transaccional gestionada por ED-CSE.
+> Cada Aggregate posee una única máquina de estados y una secuencia ordenada de eventos.
+> Las transiciones son atómicas dentro de un Aggregate y nunca abarcan múltiples Aggregates.
+
+**Regla fundamental:**
+> ED-CSE garantiza consistencia únicamente dentro de los límites de un Aggregate.
+> Toda coordinación entre Aggregates es responsabilidad de la aplicación consumidora.
+
+**Consecuencias directas:**
+- Hoy: `Order Aggregate → Order State Machine` (1:1)
+- Futuro: `Order Aggregate → [Lifecycle FSM, Fulfillment FSM]` (1:N) sin romper el modelo
+- Optimistic locking ocurre sobre **Aggregate version**, no sobre machine version
+- Sagas están **explícitamente fuera de scope** del core
 
 ### Pilares
-1. **FSM + Event Sourcing** — transiciones de estado explícitas, log de eventos como fuente de verdad
-2. **Event Bus intercambiable** — in-memory por defecto, adaptadores para Kafka/Redis/NATS en v0.2+
-3. **Schema Evolution** — integración con Apache Avro + Confluent Schema Registry
-4. **Policy Engine** — validación de transiciones (quién puede hacer qué, cuándo)
-5. **State Replay** — reproducir estado en cualquier punto del tiempo (debug de producción)
-6. **SDK TypeScript-first** — Python y Go en v0.2+
+1. **FSM** — transiciones de estado explícitas y validadas dentro del Aggregate
+2. **Event Sourcing** — log de eventos inmutable como fuente de verdad del Aggregate
+3. **Policy Engine** — validación de autorización antes de cada transición
+4. **Schema Evolution** — contratos versionados con Apache Avro + Confluent Schema Registry
+5. **State Replay** — reconstrucción determinística del estado en cualquier punto del tiempo
+6. **SDK ergonómico** — API fluida tipo Prisma/Drizzle, no motor interno expuesto
 
 ## Stack Técnico
 - **Runtime:** Node.js 20+ / TypeScript 5+
@@ -59,14 +79,23 @@ apps/
 | Language | TypeScript | Stack del owner, validación más rápida |
 | Testing | Vitest | Compatible con ESM, más rápido que Jest |
 | Build | tsup | Simple, produce CJS + ESM, basado en esbuild |
+| Persistencia v0.2 | PostgreSQL | ACID, JSONB, optimistic locking nativo, 90% de empresas ya lo tiene |
+| Concurrencia | Optimistic locking | `WHERE version = N` sobre Aggregate version — simple y probado |
+| Kafka | Diferido a v0.8 | Sin casos de uso concretos; no vende frameworks |
+| Sagas | Fuera de scope | Cambiaría la identidad del producto (Temporal territory) |
+| Identidad del producto | Opinionated Runtime | No librería — el paquete completo es el diferenciador |
+| API pública (SDK) | Fluida tipo Prisma | `runtime.machine('order').id(id).transition('CONFIRM')` |
 
-## Roadmap
-- **v0.1** — Core FSM, in-memory bus, TypeScript SDK, tests unitarios
-- **v0.2** — Avro schema registry, adaptador Kafka/Redis Streams
-- **v0.3** — State replay, CLI de inspección
-- **v0.4** — Python SDK
-- **v0.5** — Go SDK
-- **v1.0** — Nombre comercial, docs públicos, lanzamiento open source
+## Roadmap (revisado con arquitecto — 2026-06-06)
+- **v0.1** — ✅ Core FSM, in-memory bus, Avro schema registry, tests
+- **v0.2** — Aggregate Model + PostgreSQL Store + Optimistic Locking
+- **v0.3** — SDK público (`@ed-cse/sdk-node`) — API fluida tipo Prisma
+- **v0.4** — Hello World en 15 min (README + ejemplos + playground)
+- **v0.5** — Inspector (`runtime.inspect(aggregateId)`) + Replay UI
+- **v0.6** — OpenTelemetry
+- **v0.7** — Redis Streams adapter
+- **v0.8** — Kafka adapter
+- **v1.0** — Nombre comercial, docs públicos, API estable, lanzamiento oficial
 
 ## Convenciones de Código
 - Nombrado: camelCase para variables/funciones, PascalCase para clases/interfaces/tipos
@@ -83,5 +112,10 @@ apps/
 - Diferenciador clave: Replay de estado real en producción + contratos versionados
 
 ## Notas de Sesión
-- **2026-06-06:** Scaffolding inicial creado. Nombre comercial pendiente. Estructura monorepo lista.
-- **2026-06-06:** Repo vinculado a GitHub (GRobalinoU/ed-cse). Labels, milestones e issues de tracking creados. CI badge activo. Token en .env local.
+- **2026-06-06:** Scaffolding inicial. Monorepo, CI, docs bilingüe. v0.1 completo.
+- **2026-06-06:** Repo GitHub configurado. Labels, milestones, issues. CI badge activo.
+- **2026-06-06:** Review de arquitectura. Decisiones fundamentales tomadas:
+  - Identidad del producto: Opinionated Runtime (no librería)
+  - Aggregate Model definido y aprobado
+  - Roadmap reordenado: PostgreSQL → SDK → Hello World → Inspector → OTel → Redis → Kafka
+  - Sagas explícitamente fuera de scope
