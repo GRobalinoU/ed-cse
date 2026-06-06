@@ -146,15 +146,19 @@ export class AvroSchemaRegistry implements ISchemaRegistry {
     const timeout = setTimeout(() => controller.abort(), this.timeoutMs);
 
     try {
-      const response = await globalThis.fetch(`${this.baseUrl}${path}`, {
+      const fetchOptions: RequestInit = {
         method: options?.method ?? 'GET',
         headers: {
           'Content-Type': 'application/vnd.schemaregistry.v1+json',
           'Accept': 'application/vnd.schemaregistry.v1+json',
         },
-        body: options?.body,
         signal: controller.signal,
-      });
+      };
+      if (options?.body !== undefined) {
+        fetchOptions.body = options.body;
+      }
+
+      const response = await globalThis.fetch(`${this.baseUrl}${path}`, fetchOptions);
 
       if (!response.ok) {
         const errorBody = await response.text();

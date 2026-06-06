@@ -27,12 +27,46 @@ export interface DomainEvent<TPayload = unknown> {
 }
 
 /**
+ * AggregateEvent — event produced by an Aggregate transition (v0.2+).
+ *
+ * Extends DomainEvent with Aggregate-level fields.
+ * machineVersion is stored for future multi-version replay support.
+ * ED-CSE v0.x does NOT guarantee historical replay against old machine versions.
+ */
+export interface AggregateEvent<TPayload = unknown> extends DomainEvent<TPayload> {
+  /** Domain entity type — matches AggregateDefinition.aggregateType */
+  readonly aggregateType: string;
+  /**
+   * Version of the AggregateInstance AFTER this event was applied.
+   * Matches AggregateInstance.version at the time of the transition.
+   */
+  readonly aggregateVersion: number;
+  /**
+   * Version of the StateMachine definition active when this event was produced.
+   * Preserved for future multi-version replay. Not used in v0.x.
+   */
+  readonly machineVersion: number;
+}
+
+/**
  * Creates a new DomainEvent with the current timestamp.
  * ID generation is delegated to the caller to keep this module pure.
  */
 export function createEvent<TPayload = unknown>(
   params: Omit<DomainEvent<TPayload>, 'occurredAt'> & { occurredAt?: string },
 ): DomainEvent<TPayload> {
+  return {
+    ...params,
+    occurredAt: params.occurredAt ?? new Date().toISOString(),
+  };
+}
+
+/**
+ * Creates a new AggregateEvent with the current timestamp.
+ */
+export function createAggregateEvent<TPayload = unknown>(
+  params: Omit<AggregateEvent<TPayload>, 'occurredAt'> & { occurredAt?: string },
+): AggregateEvent<TPayload> {
   return {
     ...params,
     occurredAt: params.occurredAt ?? new Date().toISOString(),
