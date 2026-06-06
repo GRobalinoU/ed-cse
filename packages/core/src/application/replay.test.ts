@@ -53,13 +53,15 @@ describe('replay', () => {
     const deps = { store, bus };
     const id = 'r-2';
 
+    // Fire first event, then capture cutoff after a small delay
     await transition({ machine: orderMachine, instanceId: id, eventType: 'CONFIRM' }, deps);
 
+    // Ensure cutoff is strictly after the first event
+    await new Promise((resolve) => setTimeout(resolve, 20));
     const cutoff = new Date().toISOString();
+    await new Promise((resolve) => setTimeout(resolve, 20));
 
-    // Small delay to ensure the next event has a later timestamp
-    await new Promise((resolve) => setTimeout(resolve, 10));
-
+    // Fire second event — must be strictly after the cutoff
     await transition({ machine: orderMachine, instanceId: id, eventType: 'SHIP' }, deps);
 
     const result = await replay(
