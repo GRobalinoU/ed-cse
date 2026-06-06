@@ -17,6 +17,9 @@ coverage/
 .env.local
 .env.*.local
 
+# AI agent instructions (internal, not for public repo)
+opencode.md
+
 # Editor
 .vscode/
 .idea/

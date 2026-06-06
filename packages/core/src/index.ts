@@ -37,3 +37,5 @@ export type { ISchemaRegistry, SchemaMetadata } from './contracts/ISchemaRegistr
 // Infrastructure (built-in adapters)
 export { InMemoryEventBus } from './infrastructure/InMemoryEventBus.js';
 export { InMemoryStateStore } from './infrastructure/InMemoryStateStore.js';
+export { AvroSchemaRegistry } from './infrastructure/AvroSchemaRegistry.js';
+export type { AvroSchemaRegistryOptions } from './infrastructure/AvroSchemaRegistry.js';
